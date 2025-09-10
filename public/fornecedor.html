@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Fornecedores</title>
+    <link rel="stylesheet" href="fornecedor.css">
+    <script src="fornecedor.js"></script>
+</head>
+<body>
+<header>
+    <div class="cabecalho">
+        <h2>Controle de Vendas</h2>
+        <nav>
+            <ul>
+                <li><a href="produto.html">Produtos</a></li>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="fornecedor.html">Fornecedores</a></li>
+                <li><a href="venda.html">Venda</a></li>
+                <li><a href="relatorios.html">Relatórios</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div id="main-container">
+    <h1>Cadastro de Fornecedor</h1>
+    <form id="fornecedor-form">
+        <div class="full-box">
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" name="cnpj" placeholder="Digite o CNPJ" required>
+        </div>
+        <div class="full-box">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome do fornecedor" required>
+        </div>
+        <div class="half-box">
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" placeholder="Digite o telefone" required>
+        </div>
+        <div class="half-box">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" placeholder="Digite o e-mail" required>
+        </div>
+        <div class="full-box">
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço" required>
+        </div>
+        <div class="full-box">
+            <input type="submit" value="Cadastrar" class="alinhaBtns" onclick="cadastrarFornecedor(event)">
+            <input type="reset" value="Limpar" class="alinhaBtns">
+            <input type="button" value="Atualizar fornecedor" class="alinhaBtns" onclick="atualizarFornecedor(); limpaFornecedor();" />
+        </div>
+    </form>
+    <h2>Listagem de Fornecedores</h2>
+    <button type="button" onclick="listarFornecedores()" class="alinhaBtns">Listar Fornecedores</button>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-fornecedores">
+            <!-- Linhas serão preenchidas pelo JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<footer>
+    <p>©2025</p>
+</footer>
+</body>
+</html>
