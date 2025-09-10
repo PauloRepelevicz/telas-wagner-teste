@@ -1,0 +1,155 @@
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAGUILA - Sistema de Vendas</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" type="image/jp" href="../imagens/UI.png" />
+  </head>
+  <body onload="buscarProdutos()">
+    <header>
+      <h1>Sistema de Mercado Maguila</h1>
+      <img src="../imagens/UI.png" alt="Logo Maguila" />
+      <button class="toggle-btn">☰ Menu</button>
+    </header>
+
+    <div class="container">
+      <nav class="sidebar" id="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <a href="../index.html" class="links"><li>Dashboard</li></a>
+          <a href="estoque.html" class="links"><li>Estoque</li></a>
+          <a href="funcionario.html" class="links"
+            ><li>Cadastro de Funcionário</li></a
+          >
+          <a href="cliente.html" class="links"><li>Cadastro de Cliente</li></a>
+          <a href="fornecedor.html" class="links"
+            ><li>Cadastro de Fornecedor</li></a
+          >
+          <a href="vendas.html" class="links active"><li>Vendas</li></a>
+        </ul>
+      </nav>
+      <main class="main">
+        <section class="card">
+          <h2>Relatório de Vendas</h2>
+
+          <!-- Busca do Cliente -->
+          <div class="center-container">
+            <form id="clienteForm">
+              <div class="center-form-group">
+                <label for="cpfcliente">CPF do Cliente:</label>
+                <input
+                  type="text"
+                  id="cpfcliente"
+                  name="cpfcliente"
+                  placeholder="Digite o CPF do cliente"
+                  maxlength="14"
+                  required
+                />
+              </div>
+              <div class="center-actions">
+                <button type="button" onclick="buscarCliente()" class="btn-submit">Buscar Cliente</button>
+              </div>
+            </form>
+            <div id="cliente-info" class="form-group">    
+            </div>
+          </div>
+
+          <!-- Adicionar Produto -->
+          <form id="produtoForm">
+            <div class="form-group">
+              <label for="produto-nome">Código do Produto:</label>
+              <input type="text" id="produto-codigo" name="produto-codigo" required>
+            </div>
+            <div class="form-group">
+              <label for="produto-nome">Nome do Produto:</label>
+              <input type="text" id="produto-nome" name="produto-nome" required>
+            </div>
+
+            <div class="form-group">
+              <label for="dataNasc">Data:</label>
+              <input type="date" id="dataVenda" name="dataVenda" required />
+            </div>
+
+            <div class="form-group">
+              <label id="produto-quantidade">Quantidade:</label>
+              <input
+                type="number"
+                id="produto-quantidade"
+                name="produto-quantidade"
+                placeholder="Quantidade"
+                min="1"
+                required
+              />
+            </div>
+          </form>
+
+          <div class="form-group">
+            <label for="total-venda">Total da Venda:</label>
+            <input
+              type="text"
+              id="total-venda"
+              name="total-venda"
+              value="R$ 0,00"
+              readonly
+              class="readonly-input"
+            />
+          </div>
+
+          <!-- Finalizar Venda -->
+          <div class="form-actions">
+            <button type="button" onclick="finalizarVenda()" class="btn-submit">
+              Finalizar Venda
+            </button>
+            <button type="button" onclick="limparVenda()" class="btn-reset">
+              Cancelar Venda
+            </button>
+            <button
+              type="button"
+              onclick="adicionarProdutoAoCarrinho()"
+              class="btn-submit"
+            >
+              Adicionar ao Carrinho
+            </button>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Carrinho de Compras</h2>
+          <table class="table-clientes">
+            <!-- Carrinho -->
+            <table class="table-clientes">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Preço Unitário</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="carrinho">
+                <!-- Preenchido dinamicamente -->
+                <tr>
+                  <td colspan="6">Nenhum produto no carrinho</td>
+                </tr>
+              </tbody>
+            </table>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <img src="../imagens/ccmlogo.jpeg" alt="" />
+      <img src="../imagens/estadologo.png" alt="" />
+      <p>© 2025 MAGUILA - Sistema de Mercado</p>
+      <p>Sistema feito por: PFP'S Enterprises</p>
+      <p>
+        <a href="#">Termos de Serviço</a> |
+        <a href="#">Política de Privacidade</a>
+      </p>
+    </footer>
+
+    <script src="../script.js/vendas.js"></script>
+  </body>
+</html>

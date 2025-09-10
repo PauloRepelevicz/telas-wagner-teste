@@ -1,0 +1,136 @@
+CREATE TABLE IF NOT EXISTS funcionario(
+    func_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    func_nome VARCHAR(100) NOT NULL,
+    func_cpf VARCHAR(14) NOT NULL UNIQUE,
+    func_telefone VARCHAR(15),
+    func_email VARCHAR(100),
+    func_datanascimento DATE,
+    func_genero VARCHAR(2),
+    func_cargo	VARCHAR(30),
+    func_logradouro TEXT,
+    func_numero INTEGER,
+    func_bairro TEXT,
+    func_cidade TEXT,
+    func_estado TEXT,
+    func_cep VARCHAR(10),
+    func_complemento TEXT,
+    func_observacoes TEXT)
+);
+CREATE TABLE IF NOT EXISTS clientes(
+	  cli_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cli_nome VARCHAR(100) NOT NULL,
+    cli_cpf VARCHAR(14) NOT NULL UNIQUE,
+    cli_telefone VARCHAR(15),
+    cli_data_nascimento DATE,
+    cli_email TEXT NOT NULL,	
+    cli_logradouro TEXT,
+    cli_numero INTEGER,
+    cli_bairro TEXT,
+    cli_cidade TEXT,
+    cli_estado TEXT,
+    cli_cep VARCHAR(10),
+    cli_complemento TEXT,
+    cli_observacoes TEXT
+);
+
+CREATE TABLE IF NOT EXISTS categoria(
+	cat_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cat_nome TEXT NOT NULL,
+  cat_descricao TEXT
+);
+
+CREATE TABLE IF NOT EXISTS produto(
+	  prod_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    prod_nome TEXT NOT NULL,
+    prod_descricao TEXT,
+    prod_codigo_barras TEXT UNIQUE,
+    prod_preco_custo REAL NOT NULL,
+    prod_preco_venda REAL NOT NULL,
+  	prod_quantidade_estoque INTEGER DEFAULT 0,
+    cat_id INTEGER,
+    forn_id INTEGER,
+    prod_data_validade DATE,
+    prod_unidade_medida TEXT,
+    FOREIGN KEY (cat_id) REFERENCES categorias(cat_id),
+    FOREIGN KEY (forn_id) REFERENCES fornecedores(forn_id)
+);
+
+CREATE TABLE IF NOT EXISTS fornecedor(
+	forn_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    forn_nome TEXT NOT NULL,
+    forn_cnpj TEXT UNIQUE,
+    forn_telefone TEXT,
+    forn_email TEXT,
+    forn_end
+);
+
+CREATE TABLE IF NOT EXISTS vendas(
+	  ven_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ven_data_hora_ven DATETIME DEFAULT CURRENT_TIMESTAMP,
+    cli_cpf INTEGER,
+    func_id INTEGER,
+    ven_total REAL NOT NULL,
+    ven_forma_pagamento TEXT,
+    ven_status TEXT DEFAULT 'finalizada',
+    FOREIGN KEY (cli_id) REFERENCES clientes(cli_cpf),
+    FOREIGN KEY (func_id) REFERENCES funcionarios(func_id)
+);
+
+CREATE TABLE IF NOT EXISTS notas_fiscais (
+    not_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    not_numero INTEGER NOT NULL,
+    not_serie TEXT NOT NULL DEFAULT '1',
+    not_chave_acesso TEXT UNIQUE,
+    ven_id INTEGER NOT NULL,
+    not_data_emissao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    not_data_saida DATETIME,
+    not_tipo_operacao INTEGER DEFAULT 1, -- 1=saída, 2=entrada
+    not_status TEXT DEFAULT 'EMITIDA', -- EMITIDA, CANCELADA, CONTINGENCIA
+    not_natureza_operacao TEXT DEFAULT 'VENDA',
+    not_codigo_nfe TEXT,
+    not_xml TEXT,
+    not_pdf BLOB,
+    FOREIGN KEY (ven_id) REFERENCES vendas(ven_id)
+);
+
+CREATE TABLE IF NOT EXISTS historico (
+    hist_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ven_id INTEGER NOT NULL,
+    prod_id INTEGER NOT NULL,
+    hist_quantidade INTEGER NOT NULL CHECK(hist_quantidade > 0),
+    hist_preco_unitario REAL NOT NULL CHECK(hist_preco_unitario > 0),
+    hist_subtotal REAL NOT NULL CHECK(hist_subtotal > 0),
+    
+    FOREIGN KEY (ven_id) REFERENCES vendas(ven_id) ON DELETE CASCADE,
+    FOREIGN KEY (prod_id) REFERENCES produtos(prod_id) ON DELETE RESTRICT
+);
+
+/*INNER JOIN livros 	on emprestimos.id_livro=livros.id_livro*/
+
+select prod_nome, prod_quantidade_estoque, prod_preco_venda FROM produto ORDER BY prod_nome;
+
+/*insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Arroz', 'Saco de Arroz 1 KG', 3.59, 5.99, 50, 20/05/2026);
+
+insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Feijão', 'Saco de Feijão 1 KG', 2.80, 4.79, 30, 03/06/2026);
+
+insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Açúcar', 'Pacote de Açúcar 5 KG', 1.50, 3.49, 70, 04/02/2026);
+
+insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Óleo', 'Frasco de Óleo 500ML', 4.30, 6.59, 20, 01/07/26);
+
+insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Sal', 'Pacote de Sal 5 KG', 0.50, 2.10, 90, 16/08/2025);
+
+insert into produto (nome, descricao, preco_custo, preco_venda, quantidade_estoque, data_validade)
+VALUES ('Leite', 'Garrafa de Leite', 1, 4.99, 45, 02/09/2025);*/
+
+  --select nome, quantidade_estoque, preco_venda from produto WHERE nome LIKE :termo || '%' ORDER BY nome LIMIT 20;
+
+select prod_nome, prod_quantidade_estoque, prod_preco_venda FROM produto ORDER BY prod_nome;
+
+/*Arrumar coisas faltando no Banco de dados (ex: funcionario q n tem a parte de genero presente do front end)
+Arrumar front end para estar certo com o BD (ex: nao usamos banco de dados relacional na area de adicionar produto)
+ou seja "sincronizar" o front end com o bd
